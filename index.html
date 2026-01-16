@@ -11,16 +11,32 @@
   <!-- مكان ظهور البوت -->
   <div id="CyberBotI" style="width:100%; height:100vh;"></div>
 
-  <!-- كود Voiceflow -->
+  <!-- التقاط participant_id من الرابط -->
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const pid = params.get('participant_id');
+    window.participant_id = pid ? String(pid) : '';
+  </script>
 
-<script type="text/javascript">
-  (function(d, t) {
+  <!-- كود Voiceflow (محفوظ كما هو + إضافة launch فقط) -->
+  <script type="text/javascript">
+    (function(d, t) {
       var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
       v.onload = function() {
         window.voiceflow.chat.load({
           verify: { projectID: '69498599d5d80f230a07ce31' },
           url: 'https://general-runtime.voiceflow.com',
           versionID: 'production',
+
+          launch: {
+            event: {
+              type: "launch",
+              payload: {
+                participant_id: window.participant_id
+              }
+            }
+          },
+
           voice: {
             url: "https://runtime-api.voiceflow.com"
           },
@@ -30,9 +46,11 @@
           }
         });
       }
-      v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
-  })(document, 'script');
-</script>
+      v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs";
+      v.type = "text/javascript";
+      s.parentNode.insertBefore(v, s);
+    })(document, 'script');
+  </script>
 
 </body>
 </html>
